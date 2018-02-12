@@ -26,6 +26,10 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    const ROLE_USER = 10;
+    const ROLE_ADMIN = 20;
+    const ROLE_SUPERUSER = 30;
+
 
     /**
      * @inheritdoc
@@ -43,6 +47,16 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             TimestampBehavior::className(),
         ];
+    }
+
+    public static function roleInArray($arr_role)
+    {
+        return in_array(Yii::$app->user->identity->role, $arr_role);
+    }
+
+    public static function isActive()
+    {
+        return Yii::$app->user->identity->status == self::STATUS_ACTIVE;
     }
 
     /**
