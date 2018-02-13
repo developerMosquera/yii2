@@ -13,11 +13,12 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\User;
+use common\models\AccessHelpers;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends BaseController
 {
     /**
      * @inheritdoc
@@ -30,23 +31,14 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup', 'about'],
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'signup', 'error'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['about', 'logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => ['about'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            $valid_roles = [User::ROLE_ADMIN, User::ROLE_SUPERUSER];
-                            return User::roleInArray($valid_roles) && User::isActive();
-                        }
                     ],
                 ],
             ],
@@ -58,6 +50,28 @@ class SiteController extends Controller
             ],
         ];
     }
+
+    /*public function beforeAction($action)
+    {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        $operacion = str_replace("/", "-", Yii::$app->controller->route);
+
+        $permitirSiempre = ['site-captcha', 'site-signup', 'site-index', 'site-error', 'site-login', 'site-logout'];
+
+        if (in_array($operacion, $permitirSiempre)) {
+            return true;
+        }
+
+        if (!AccessHelpers::getAcceso($operacion)) {
+            echo $this->render('nopermitido');
+            return false;
+        }
+
+        return true;
+    }*/
 
     /**
      * @inheritdoc
