@@ -31,7 +31,7 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'], 'options' => ['class' => 'skinaTour', 'titleTour' => 'menu Gii', 'textTour' => 'Hola mundo desde Gii tour', 'placementTour' => 'bottom', 'id' => 'menuGii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
@@ -60,6 +60,7 @@
                             ],
                         ],
                     ],
+                    ['label' => 'Tour', 'icon' => 'file-code-o', 'url' => '#', 'options' => ['id' => 'initTour', 'data-tour' => '']],
                 ],
             ]
         ) ?>

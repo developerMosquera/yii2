@@ -19,34 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-        <?= Html::a(Yii::t('app', 'Create Productos'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Productos'), ['create'], ['class' => 'btn btn-success skinaTour', 'titleTour' => 'crear Producto', 'textTour' => 'Aquí podras crear más productos', 'placementTour' => 'bottom', 'id' => 'crearProducto']) ?>
     </p>
 
     <?= DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
 
-        'clientOptions' => [
-            'dom' => 'lfrtipB',
-            'buttons' => ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
-             "dom"=> 'lfTrtip',
-            'language' => [
-                "lengthMenu" => Yii::t('app', 'showing') . " _MENU_ " . Yii::t('app', 'rows_per_page'),
-                "zeroRecords" => Yii::t('app', 'no_records_found'),
-                "info" => Yii::t('app', 'showing') . " _PAGE_ " . Yii::t('app', 'of') . " _PAGES_",
-                "infoEmpty" => Yii::t('app', 'no_records_available'),
-                "infoFiltered" => "(" . Yii::t('app', 'filtering_for') . ")",
-                "search" => Yii::t('app', 'search') . " :",
-                "paginate" => [
-                    "first" => Yii::t('app', 'first'),
-                    "last" => Yii::t('app', 'last'),
-                    "next" => Yii::t('app', 'next'),
-                    "previous" => Yii::t('app', 'previous')
-                ],
-            ],
-        ],
+        'clientOptions' => yii::$app->params['clientOptions'],
 
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

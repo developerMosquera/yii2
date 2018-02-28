@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 /**
  * ProductosController implements the CRUD actions for Productos model.
@@ -65,6 +66,114 @@ class ProductosController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionUpload()
+    {
+        $model = new Productos();
+
+        $ruta = Yii::$app->basePath . '/uploads/';
+
+        if($model->load(Yii::$app->request->post()))
+        {
+            $file = UploadedFile::getInstance($model, 'importData');
+            $filename = 'proccesar.' . $file->extension;
+            $upload = $file->saveAs($ruta . '' . $filename);
+            $estructuraCargueError = [];
+
+            if($upload)
+            {
+                $estructuraCargue = array("idProducto", "idSubCategoria", "nomProducto");
+
+                $data = \moonland\phpexcel\Excel::widget([
+                    'mode' => 'import',
+                    'fileName' => $ruta."/".$filename,
+                    'setFirstRecordAsKeys' => true,
+                    'setIndexSheetByName' => true,
+                    'getOnlySheet' => 'sheet1',
+                ]);
+
+                foreach ($data[0] as $key => $value)
+                {
+                    if(!in_array($key, $estructuraCargue))
+                    {
+                        $estructuraCargueError[] = "Error en la estructra, fila #1 columna ". $key ." mal escrtio";
+                    }
+                }
+
+                if(count($estructuraCargueError) > 0)
+                {
+                    Yii::$app->session->setFlash('danger', $estructuraCargueError);
+                } else {
+
+                    $i = 0;
+                    $updates = 0;
+                    $creates = 0;
+                    $saveErrors = 0;
+                    $rowsErrors = [];
+
+                    foreach($data as $key => $rows)
+                    {
+                        $i++;
+
+                        $valido = Productos::find()->where(['idProducto' => $rows['idProducto']])->one();
+                        if($valido != NULL)
+                        {
+                            $modelNew = $valido;
+                            $modelNew->idSubCategoria = $rows['idSubCategoria'];
+                            $modelNew->nomProducto = $rows['nomProducto'];
+
+                            if($modelNew->validate() === false)
+                            {
+                                foreach($modelNew->getErrors() as $key => $value) {
+                                    $rowsErrors[] = "Fila #". $i ." columna ". $key ." ". $value[0];
+                                }
+
+                                $modelNew->getErrors();
+                            } else {
+                                if($modelNew->save())
+                                {
+                                    $updates++;
+                                } else {
+                                    $saveErrors++;
+                                }
+                            }
+
+                        } else {
+                            $modelNew = new Productos();
+                            $modelNew->idSubCategoria = $rows['idSubCategoria'];
+                            $modelNew->nomProducto = $rows['nomProducto'];
+
+                            if($modelNew->validate() === false)
+                            {
+                                foreach($modelNew->getErrors() as $key => $value) {
+                                    $rowsErrors[] = "Fila #". $i ." columna ". $key ." ". $value[0];
+                                }
+                            } else {
+                                if($modelNew->save())
+                                {
+                                    $creates++;
+                                } else {
+                                    $saveErrors++;
+                                }
+                            }
+                        }
+                    }
+
+                    if(count($rowsErrors) > 0)
+                    {
+                        Yii::$app->session->setFlash('warning', 'Total registros: '. count($data) .', Creados: '. $creates .', Editados: '. $updates);
+                        Yii::$app->session->setFlash('danger', $rowsErrors);
+                    } else {
+                        Yii::$app->session->setFlash('success', 'Total registros: '. count($data) .', Creados: '. $creates .', Editados: '. $updates);
+                        return $this->redirect(['productos/index']);
+                    }
+                }
+            }
+        }
+
+        return $this->render('upload', [
+            'model' => $model, 'prueba' => 'hola mundo']);
     }
 
     /**

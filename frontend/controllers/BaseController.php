@@ -4,7 +4,7 @@
  * @Author: amosquera
  * @Date:   2018-02-13 08:35:05
  * @Last Modified by:   amosquera
- * @Last Modified time: 2018-02-13 08:40:06
+ * @Last Modified time: 2018-02-15 08:30:18
  */
 
 namespace frontend\controllers;
@@ -22,7 +22,7 @@ class BaseController extends Controller {
         }
         $operacion = str_replace("/", "-", Yii::$app->controller->route);
 
-        $permitirSiempre = ['site-captcha', 'site-signup', 'site-index', 'site-error', 'site-about', 'site-login', 'site-logout'];
+        $permitirSiempre = ['site-captcha', 'site-signup', 'site-index', 'site-error', 'site-login', 'site-logout'];
 
         if (in_array($operacion, $permitirSiempre))
         {

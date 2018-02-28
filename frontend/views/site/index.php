@@ -4,6 +4,14 @@
 
 $this->title = 'My Yii Application';
 ?>
+
+<h1 id="one" class="skinaTour" titleTour="Mi aplicación" textTour="index de la aplicación cara principal, donde encontraras graficos y resultados increibles de los rendimientos" placementTour="bottom" style="border: 1px #000 solid;">My Awesome App</h1>
+
+<div id="two" class="skinaTour" pathTour="" titleTour="Img" textTour="Imagen de prueba en el index de la aplicación" placementTour="bottom">
+  img
+</div>
+
+
 <div class="site-index">
 
     <div class="jumbotron">

@@ -16,6 +16,7 @@ use Yii;
  */
 class Productos extends \yii\db\ActiveRecord
 {
+    public $importData;
     /**
      * @inheritdoc
      */
@@ -32,6 +33,7 @@ class Productos extends \yii\db\ActiveRecord
         return [
             [['idSubCategoria', 'nomProducto'], 'required'],
             [['idSubCategoria', 'estadoProducto'], 'integer'],
+            ['nomProducto', 'unique'],
             [['nomProducto'], 'string', 'max' => 45],
             [['idSubCategoria'], 'exist', 'skipOnError' => true, 'targetClass' => SubCategoria::className(), 'targetAttribute' => ['idSubCategoria' => 'idSubCategoria']],
         ];

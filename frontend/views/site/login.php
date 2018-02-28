@@ -68,3 +68,32 @@ $fieldOptions2 = [
     </div>
     <!-- /.login-box-body -->
 </div><!-- /.login-box -->
+
+<?php
+
+//Modales
+/*
+Modal::begin([
+    'header' => '<h1>'. Yii::t('app', 'Signup') .'</h1>',
+    'id' => 'modal',
+    'size' => 'modal-md',
+]);
+
+echo "<div id='modalContent'></div>";
+
+modal::end();
+
+$(function() {
+    $('#modalButton').on('click', function() {
+        $('#modal').modal('show')
+            .find('#modalContent')
+            .load($(this).attr('value'));
+    });
+});*/
+
+/*** Adiciona el archivo skinaTour para indicar el funcionamiento de la aplicaión ***/
+/************************************************************************************/
+//$this->registerJsFile(Yii::$app->request->baseUrl.'/js/main.js', ['depends' => [\yii\web\JqueryAsset::className(), yii\bootstrap\BootstrapPluginAsset::className()]]);
+/*** Fin  ***/
+/************/
+?>

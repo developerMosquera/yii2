@@ -19,7 +19,10 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "dmstr/yii2-adminlte-asset": "^2.1",
-        "fedemotta/yii2-widget-datatables": "*"
+        "fedemotta/yii2-widget-datatables": "*",
+        "bower-asset/bootstrap-tour": "*",
+        "moonlandsoft/yii2-phpexcel": "*",
+        "2amigos/yii2-bootstrap-form-helpers-library" : "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
